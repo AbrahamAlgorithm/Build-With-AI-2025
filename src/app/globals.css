@@ -1,11 +1,14 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -19,8 +22,32 @@
   }
 }
 
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/google-sans/ProductSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/google-sans/ProductSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/google-sans/ProductSans-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/google-sans/ProductSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+body, html {
+  font-family: 'Product Sans', Arial, sans-serif;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
