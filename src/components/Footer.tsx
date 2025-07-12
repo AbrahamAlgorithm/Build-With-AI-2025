@@ -3,9 +3,9 @@ import Image from 'next/image';
 export default function Footer() {
   return (
     <footer className="bg-black px-0 py-0 w-full font-sans">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between py-20 px-10 gap-16">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between py-20 px-10 gap-16 text-center md:text-left">
         {/* Left: Logo and tagline */}
-        <div className="flex flex-col items-start gap-6 flex-1 md:pl-8">
+        <div className="flex flex-col items-center md:items-start gap-6 flex-1 md:pl-8">
           <Image
             alt="GDG FUTMinna Logo"
             width={320}
@@ -21,6 +21,7 @@ export default function Footer() {
             Join GDG on Campus FUTMinna and be part of a vibrant community driving tech innovation and learning.
           </p>
         </div>
+
         {/* Center: Lanyard and social icons */}
         <div className="flex flex-col items-center gap-8 flex-1">
           <Image
@@ -62,8 +63,9 @@ export default function Footer() {
             </a>
           </div>
         </div>
+
         {/* Right: Quick links */}
-        <div className="flex flex-col items-end gap-6 flex-1">
+        <div className="flex flex-col items-center md:items-end gap-6 flex-1">
           <h3 className="text-white text-2xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-4 text-gray-300 text-lg lg:text-xl">
             <li>
@@ -78,6 +80,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
+
       <div className="border-t border-gray-800 py-8 text-center">
         <p className="text-gray-400 text-base lg:text-lg italic">
           &copy; {new Date().getFullYear()}, GDG on Campus FUTMinna. All rights reserved.
