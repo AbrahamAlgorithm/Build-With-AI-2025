@@ -1,13 +1,13 @@
 'use client'
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Upload, Edit2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
 import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import Image from "next/image";
 import DPPreview from "./DPPreview";
 
 const DPGenerator = () => {
@@ -17,6 +17,7 @@ const DPGenerator = () => {
   const [originalImage, setOriginalImage] = useState<string>("");
   const [showCropInterface, setShowCropInterface] = useState(false);
   const [cropPreview, setCropPreview] = useState<string>("");
+  const [isDragOver, setIsDragOver] = useState(false);
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
     width: 80,
@@ -25,16 +26,8 @@ const DPGenerator = () => {
     y: 10,
   });
   const imgRef = useRef<HTMLImageElement>(null);
-  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Generate crop preview whenever crop changes
-  useEffect(() => {
-    if (imgRef.current && crop.width && crop.height && showCropInterface) {
-      generateCropPreview();
-    }
-  }, [crop, showCropInterface]);
-
-  const generateCropPreview = async () => {
+  const generateCropPreview = useCallback(async () => {
     if (!imgRef.current || !crop.width || !crop.height) return;
 
     try {
@@ -43,7 +36,13 @@ const DPGenerator = () => {
     } catch (error) {
       console.error('Error generating crop preview:', error);
     }
-  };
+  }, [crop]);
+
+  useEffect(() => {
+    if (imgRef.current && crop.width && crop.height && showCropInterface) {
+      generateCropPreview();
+    }
+  }, [crop, showCropInterface, generateCropPreview]);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -53,8 +52,7 @@ const DPGenerator = () => {
         const imageUrl = e.target?.result as string;
         setOriginalImage(imageUrl);
         
-        // Auto-crop with default settings
-        const img = new Image();
+        const img = new window.Image();
         img.onload = async () => {
           try {
             const defaultCrop = {
@@ -81,7 +79,6 @@ const DPGenerator = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return Promise.reject('No 2d context');
 
-    // Convert percentage-based crop to pixel values
     const pixelCrop = {
       x: (crop.x / 100) * image.naturalWidth,
       y: (crop.y / 100) * image.naturalHeight,
@@ -89,15 +86,12 @@ const DPGenerator = () => {
       height: (crop.height / 100) * image.naturalHeight,
     };
 
-    // Set canvas size to the crop size
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
 
-    // Set canvas drawing settings
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    // Draw the cropped portion of the image onto the canvas
     ctx.drawImage(
       image,
       pixelCrop.x,
@@ -146,30 +140,72 @@ const DPGenerator = () => {
   };
 
   const downloadDP = async () => {
+    console.log('Download DP function called');
     const previewElement = document.querySelector('.dp-preview') as HTMLElement;
-    if (!previewElement) return;
+    
+    if (!previewElement) {
+      console.error('Preview element not found');
+      return;
+    }
+
+    console.log('Preview element found:', previewElement);
 
     try {
-      // Use html2canvas to capture the preview element
-      const { default: html2canvas } = await import('html2canvas');
+      const { default: html2canvas } = await import('html2canvas-pro');
       
-      // Get the actual dimensions of the preview element
+      // Wait for images to load
+      const images = previewElement.querySelectorAll('img');
+      console.log('Found images:', images.length);
+      
+      await Promise.all(Array.from(images).map((img, index) => {
+        return new Promise((resolve) => {
+          console.log(`Waiting for image ${index + 1}:`, img.src);
+          if (img.complete) {
+            console.log(`Image ${index + 1} already loaded`);
+            resolve(img);
+          } else {
+            img.onload = () => {
+              console.log(`Image ${index + 1} loaded successfully`);
+              resolve(img);
+            };
+            img.onerror = (e) => {
+              console.error(`Image ${index + 1} failed to load:`, e);
+              resolve(img);
+            };
+          }
+        });
+      }));
+      
+      console.log('All images loaded, starting canvas capture...');
+      
       const rect = previewElement.getBoundingClientRect();
       
       const canvas = await html2canvas(previewElement, {
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        scale: 2, // Higher quality
+        scale: 2,
         width: rect.width,
         height: rect.height,
         scrollX: 0,
         scrollY: 0,
+        logging: true, // Enable logging for debugging
+        imageTimeout: 30000,
+        removeContainer: false,
+        foreignObjectRendering: false, // Disable this as it can cause issues
+        ignoreElements: () => false
       });
+
+      console.log('Canvas captured:', canvas.width, 'x', canvas.height);
 
       // Convert canvas to blob and download
       canvas.toBlob((blob) => {
-        if (!blob) return;
+        if (!blob) {
+          console.error('Failed to create blob');
+          return;
+        }
+        
+        console.log('Blob created successfully, size:', blob.size);
         
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -179,25 +215,199 @@ const DPGenerator = () => {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-      }, 'image/png');
+        
+        console.log('Download completed successfully');
+      }, 'image/png', 0.95);
     } catch (error) {
       console.error('Error downloading DP:', error);
+      console.log('Attempting fallback method...');
+      
+      try {
+        await fallbackDownload();
+      } catch (fallbackError) {
+        console.error('Fallback method also failed:', fallbackError);
+        alert('Download failed. Please try again or check your internet connection.');
+      }
     }
   };
 
-  // Check if all required fields are filled
+  // Fallback download method using canvas drawing
+  const fallbackDownload = async () => {
+    console.log('Using fallback download method');
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('Canvas context not available');
+    }
+
+    canvas.width = 800; // High resolution
+    canvas.height = 800;
+
+    // Set white background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 800, 800);
+
+    try {
+      // Load and draw template image
+      const templateImg = new window.Image();
+      templateImg.crossOrigin = 'anonymous';
+      
+      await new Promise((resolve, reject) => {
+        templateImg.onload = resolve;
+        templateImg.onerror = reject;
+        templateImg.src = '/template.png';
+      });
+      
+      ctx.drawImage(templateImg, 0, 0, 800, 800);
+      console.log('Template image drawn');
+
+      // Draw user photo if available
+      if (photo) {
+        const userImg = new window.Image();
+        userImg.crossOrigin = 'anonymous';
+        
+        await new Promise((resolve, reject) => {
+          userImg.onload = resolve;
+          userImg.onerror = reject;
+          userImg.src = photo;
+        });
+
+        // Draw circular user photo
+        const photoSize = 224; // 112 * 2 for high res
+        const photoX = 400 - photoSize / 2; // Center X
+        const photoY = 240 - photoSize / 2; // 30% from top
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(400, 240, photoSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(userImg, photoX, photoY, photoSize, photoSize);
+        ctx.restore();
+
+        // Draw white border around photo
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.arc(400, 240, photoSize / 2 + 4, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        console.log('User photo drawn');
+      }
+
+      // Draw user name if available
+      if (name) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.strokeStyle = '#e5e7eb';
+        ctx.lineWidth = 2;
+        
+        // Measure text
+        ctx.font = 'bold 32px Arial, sans-serif';
+        const textMetrics = ctx.measureText(name);
+        const textWidth = textMetrics.width;
+        const textHeight = 32;
+        
+        const rectX = 400 - (textWidth + 32) / 2;
+        const rectY = 600 - 20;
+        const rectWidth = textWidth + 32;
+        const rectHeight = textHeight + 16;
+        
+        // Draw background rectangle
+        ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+        ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+        
+        // Draw text
+        ctx.fillStyle = '#1f2937';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(name, 400, rectY + rectHeight / 2);
+        
+        console.log('User name drawn');
+      }
+
+      // Convert to blob and download
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          console.error('Failed to create blob in fallback method');
+          return;
+        }
+        
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `BuildWithAI-DP-${name || 'User'}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        console.log('Fallback download completed successfully');
+      }, 'image/png', 0.95);
+
+    } catch (error) {
+      console.error('Error in fallback download:', error);
+      throw error;
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const imageUrl = e.target?.result as string;
+          setOriginalImage(imageUrl);
+          
+          const img = new window.Image();
+          img.onload = async () => {
+            try {
+              const defaultCrop = {
+                unit: '%' as const,
+                width: 80,
+                height: 80,
+                x: 10,
+                y: 10,
+              };
+              const croppedImageUrl = await getCroppedImg(img, defaultCrop);
+              setPhoto(croppedImageUrl);
+            } catch (error) {
+              console.error('Error auto-cropping image:', error);
+            }
+          };
+          img.src = imageUrl;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
   const isReadyToDownload = name.trim() !== "" && photo !== "";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="mb-16 space-y-4 text-center animate-fade-in">
-          <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl text-foreground bg-gradient-to-r from-slate-900 via-slate-900-600 to-slate-900-800 bg-clip-text">
+        <div className="mb-16 space-y-4 text-center">
+          <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl text-gray-900">
             Join the AI Revolution
           </h1>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Create your personalized BuildWithAI FUTMINNA 2025 profile picture and show the world you're ready to shape the future with AI
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+            Create your personalized BuildWithAI FUTMINNA 2025 profile picture and show the world you&apos;re ready to shape the future with AI
           </p>
         </div>
 
@@ -207,7 +417,7 @@ const DPGenerator = () => {
           <div className="space-y-8">
             {/* Name Input */}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-foreground">
+              <Label htmlFor="name" className="text-sm font-medium text-gray-900">
                 Name
               </Label>
               <Input
@@ -222,62 +432,25 @@ const DPGenerator = () => {
 
             {/* Photo Upload */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">Photo</Label>
+              <Label className="text-sm font-medium text-gray-900">Photo</Label>
               {!originalImage ? (
                 <div 
-                  className="p-8 transition-colors border-2 border-dashed rounded-lg cursor-pointer border-border hover:border-primary/50 hover:bg-muted/30"
+                  className={`p-8 transition-colors border-2 border-dashed rounded-lg cursor-pointer ${
+                    isDragOver 
+                      ? 'border-blue-500 bg-blue-50' 
+                      : 'border-gray-300 hover:border-blue-500 hover:bg-gray-50'
+                  }`}
                   onClick={() => document.getElementById('photo-upload')?.click()}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    e.currentTarget.classList.add('border-primary', 'bg-muted/50');
-                  }}
-                  onDragLeave={(e) => {
-                    e.preventDefault();
-                    e.currentTarget.classList.remove('border-primary', 'bg-muted/50');
-                  }}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    e.currentTarget.classList.remove('border-primary', 'bg-muted/50');
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                      const file = files[0];
-                      if (file.type.startsWith('image/')) {
-                        // Create a file reader and process the file directly
-                        const reader = new FileReader();
-                        reader.onload = async (e) => {
-                          const imageUrl = e.target?.result as string;
-                          setOriginalImage(imageUrl);
-                          
-                          // Auto-crop with default settings
-                          const img = new Image();
-                          img.onload = async () => {
-                            try {
-                              const defaultCrop = {
-                                unit: '%' as const,
-                                width: 80,
-                                height: 80,
-                                x: 10,
-                                y: 10,
-                              };
-                              const croppedImageUrl = await getCroppedImg(img, defaultCrop);
-                              setPhoto(croppedImageUrl);
-                            } catch (error) {
-                              console.error('Error auto-cropping image:', error);
-                            }
-                          };
-                          img.src = imageUrl;
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }
-                  }}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
                 >
                   <div className="space-y-4 text-center">
-                    <div className="w-12 h-12 mx-auto text-muted-foreground">
+                    <div className="w-12 h-12 mx-auto text-gray-400">
                       <Upload className="w-full h-full" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-500">
                         Drag and drop to upload or click to browse
                       </p>
                       <input
@@ -292,7 +465,7 @@ const DPGenerator = () => {
                 </div>
               ) : showCropInterface ? (
                 <div className="space-y-4">
-                  <div className="p-4 border rounded-lg border-border">
+                  <div className="p-4 border rounded-lg border-gray-200">
                     <div className="w-full">
                       <ReactCrop
                         crop={crop}
@@ -300,6 +473,7 @@ const DPGenerator = () => {
                         aspect={1}
                         circularCrop
                       >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           ref={imgRef}
                           src={originalImage}
@@ -310,21 +484,21 @@ const DPGenerator = () => {
                     </div>
                   </div>
                   
-                  {/* Crop Preview */}
                   {cropPreview && (
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-foreground">Preview</Label>
-                      <div className="p-4 border rounded-lg border-border bg-muted/30">
+                      <Label className="text-sm font-medium text-gray-900">Preview</Label>
+                      <div className="p-4 border rounded-lg border-gray-200 bg-gray-50">
                         <div className="flex justify-center">
-                          <div className="w-32 h-32 overflow-hidden border-2 rounded-full border-primary">
-                            <img
+                          <div className="w-32 h-32 overflow-hidden border-2 rounded-full border-blue-500 relative">
+                            <Image
                               src={cropPreview}
                               alt="Cropped preview"
-                              className="object-cover w-full h-full"
+                              fill
+                              className="object-cover"
                             />
                           </div>
                         </div>
-                        <p className="mt-2 text-xs text-center text-muted-foreground">
+                        <p className="mt-2 text-xs text-center text-gray-500">
                           This is how your cropped image will look
                         </p>
                       </div>
@@ -335,32 +509,30 @@ const DPGenerator = () => {
                     <Button variant="outline" onClick={handleCancelCrop} className="flex-1">
                       Cancel
                     </Button>
-                    <Button onClick={handleSaveCrop} className="flex-1 bg-slate-900 hover:bg-slate-900/90">
+                    <Button onClick={handleSaveCrop} className="flex-1 bg-gray-900 hover:bg-gray-800 text-white">
                       Save Cropped Image
                     </Button>
                   </div>
-                  <input
-                    id="photo-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="relative h-48 overflow-hidden border rounded-lg border-border">
-                    <img
-                      src={photo}
-                      alt="Uploaded"
-                      className="object-contain w-full h-full"
-                    />
-                    <button
-                      onClick={handleEditImage}
-                      className="absolute p-2 text-white transition-colors rounded-full top-2 right-2 bg-black/50 hover:bg-black/70"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
+                  <div className="relative h-48 overflow-hidden border rounded-lg border-gray-200">
+                    {photo && (
+                      <Image
+                        src={photo}
+                        alt="Uploaded"
+                        fill
+                        className="object-contain"
+                      />
+                    )}
+                    {photo && (
+                      <button
+                        onClick={handleEditImage}
+                        className="absolute p-2 text-white transition-colors rounded-full top-2 right-2 bg-black/50 hover:bg-black/70 z-10"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <Button
                     variant="outline"
@@ -382,7 +554,7 @@ const DPGenerator = () => {
 
             {/* Color Selection */}
             <div className="space-y-4">
-              <Label className="text-sm font-medium text-foreground">
+              <Label className="text-sm font-medium text-gray-900">
                 Select preferred color
               </Label>
               <RadioGroup value={selectedColor} onValueChange={setSelectedColor}>
@@ -407,20 +579,17 @@ const DPGenerator = () => {
               </RadioGroup>
             </div>
 
-            {/* Action Buttons */}
-            <div className="space-y-4">
-              {/* Download Button */}
-              {isReadyToDownload && (
-                <Button 
-                  onClick={downloadDP}
-                  variant="outline" 
-                  className="flex items-center w-full gap-2 py-6 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white"
-                >
-                  <Download className="w-5 h-5" />
-                  Download DP
-                </Button>
-              )}
-            </div>
+            {/* Download Button */}
+            {isReadyToDownload && (
+              <Button 
+                onClick={downloadDP}
+                variant="outline" 
+                className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+              >
+                <Download className="w-5 h-5" />
+                Download DP
+              </Button>
+            )}
           </div>
 
           {/* Preview Section */}
@@ -428,7 +597,6 @@ const DPGenerator = () => {
             <DPPreview name={name} photo={photo} color={selectedColor} />
           </div>
         </div>
-
       </div>
     </div>
   );

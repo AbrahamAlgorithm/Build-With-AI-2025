@@ -4,126 +4,88 @@ interface DPPreviewProps {
   name?: string;
   photo?: string;
   color?: string;
+  photoPosition?: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+    transform?: string;
+  };
+  namePosition?: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+    transform?: string;
+  };
 }
 
-const DPPreview = ({ name = "", photo, color = "white" }: DPPreviewProps) => {
-  // Define background colors based on selection
-  const backgroundColors = {
-    white: "bg-white",
-    blue: "bg-blue-50",
-    green: "bg-green-50"
-  };
-
-  const getBackgroundColor = () => backgroundColors[color as keyof typeof backgroundColors] || "bg-white";
-
+const DPPreview = ({ 
+  name = "", 
+  photo, 
+  photoPosition = { top: '33%', left: '73.5%', transform: 'translate(-50%, -50%)' },
+  namePosition = { bottom: '40%', left: '73.7%', transform: 'translateX(-50%)' }
+}: DPPreviewProps) => {
   return (
-    <div className="w-full max-w-md mx-auto dp-preview">{/* Added dp-preview class for capture */}
-      <div className={`relative ${getBackgroundColor()} rounded-3xl shadow-lg overflow-hidden aspect-square`}>
-        {/* Main content area */}
-        <div className="absolute inset-0 flex flex-col justify-between p-6">
-          {/* Top section with decorative elements */}
-          <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-16 h-8 border-2 border-gray-800 rounded-full"></div>
-              <div className="px-3 py-1 text-sm font-medium text-white bg-gray-800 rounded-full">
-                2025
-              </div>
-            </div>
-          </div>
-
-          {/* Center section */}
-          <div className="space-y-4 text-center">
-            <div className="text-sm font-medium text-gray-600">I'll be attending</div>
-            
-            {/* Logo area */}
-            {/* <div className="flex justify-center">
-              <img 
-                src={buildWithAiLogo} 
-                alt="Build with AI" 
-                className="object-contain w-auto h-16"
-              />
-            </div> */}
-
-            {/* User photo placeholder */}
-            <div className="w-24 h-24 mx-auto overflow-hidden bg-gray-200 border-4 border-gray-300 rounded-full">
+    <div className="w-full max-w-md mx-auto dp-preview">
+      <div className="relative overflow-hidden aspect-square">
+        {/* Template background image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/template.png" 
+          alt="BuildWithAI Template" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        
+        {/* Overlay content */}
+        <div className="absolute inset-0">
+          {/* User photo - positioned based on props */}
+          <div 
+            className="absolute z-10"
+            style={{
+              top: photoPosition.top,
+              bottom: photoPosition.bottom,
+              left: photoPosition.left,
+              right: photoPosition.right,
+              transform: photoPosition.transform
+            }}
+          >
+            <div className="w-40 h-40 mx-auto overflow-hidden bg-gray-200 border-4 border-white rounded-full shadow-lg">
               {photo ? (
-                <img src={photo} alt={name} className="object-cover w-full h-full" />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img 
+                  src={photo} 
+                  alt={name} 
+                  className="object-cover w-full h-full"
+                  crossOrigin="anonymous"
+                  onLoad={() => console.log('Image loaded successfully')}
+                  onError={(e) => console.error('Image failed to load:', e)}
+                />
               ) : (
                 <div className="flex items-center justify-center w-full h-full bg-gray-200">
-                  <span className="text-xs text-gray-400">Photo</span>
+                  <span className="text-sm text-gray-400">Photo</span>
                 </div>
               )}
             </div>
-
-            {/* User name display */}
-            {name && (
-              <div className="px-4 py-2 text-center border border-gray-200 rounded-full bg-white/80 backdrop-blur-sm">
-                <div className="text-sm font-semibold text-gray-800">{name}</div>
-              </div>
-            )}
-
-            {/* Decorative wave */}
-            <div className="flex justify-center">
-              <svg width="120" height="40" viewBox="0 0 120 40" className="text-pink-300">
-                <path
-                  d="M10,20 Q30,5 50,20 T90,20 Q110,30 120,20"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  fill="none"
-                />
-              </svg>
-            </div>
           </div>
 
-          {/* Bottom section */}
-          <div className="space-y-3">
-            {/* Date badge */}
-            <div className="px-4 py-2 text-center bg-white border-2 border-gray-800 rounded-full">
-              <div className="text-xs font-medium text-gray-600">12th April 2025</div>
-            </div>
-
-            {/* Location and sponsor info */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-white border-2 border-gray-800"></div>
-                <div className="text-gray-700">
-                  <div className="font-medium">FUTMINNA Innovation Hub,</div>
-                  <div>Gidan Kwano Campus, FUTMINNA</div>
-                  <div>Niger state.</div>
-                </div>
-              </div>
-              <div className="flex space-x-1">
-                <div className="w-4 h-4 rounded-sm bg-gdg-blue"></div>
-                <div className="w-4 h-4 rounded-sm bg-gdg-red"></div>
-                <div className="w-4 h-4 rounded-sm bg-gdg-yellow"></div>
-                <div className="w-4 h-4 rounded-sm bg-gdg-green"></div>
+          {/* User name - positioned based on props */}
+          {name && (
+            <div 
+              className="absolute z-10"
+              style={{
+                top: namePosition.top,
+                bottom: namePosition.bottom,
+                left: namePosition.left,
+                right: namePosition.right,
+                transform: namePosition.transform
+              }}
+            >
+              <div className="px-4 py-1.5 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-gray-200">
+                <div className="text-[11px] font-semibold text-gray-800 text-center whitespace-nowrap">{name}</div>
               </div>
             </div>
-
-            {/* GDG branding */}
-            <div className="text-right">
-              <div className="text-xs font-medium text-gray-700">Google</div>
-              <div className="text-xs font-medium text-gray-700">Developer</div>
-              <div className="text-xs font-medium text-gray-700">Groups</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Decorative corner elements */}
-        <div className="absolute top-4 right-4">
-          <div className="w-8 h-8 border-2 border-gray-800 rounded-full"></div>
-        </div>
-        
-        {/* Decorative line element */}
-        <div className="absolute bottom-20 left-6">
-          <svg width="60" height="20" viewBox="0 0 60 20" className="text-red-400">
-            <path
-              d="M5,10 Q15,5 25,10 T45,10"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-            />
-          </svg>
+          )}
         </div>
       </div>
     </div>
