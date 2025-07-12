@@ -1,12 +1,7 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Header />
+    <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-1">{/* Your main content here */}</main>
-      <Footer />
     </div>
   );
 }
