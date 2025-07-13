@@ -75,7 +75,7 @@ export default function Footer() {
               <a href="/speakers" className="hover:text-[#F9AB00] transition">Speakers</a>
             </li>
             <li>
-              <a href="/team" className="hover:text-[#F9AB00] transition">Team</a>
+              <a href="/team-page" className="hover:text-[#F9AB00] transition">Team</a>
             </li>
           </ul>
         </div>
