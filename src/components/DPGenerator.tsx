@@ -140,7 +140,6 @@ const DPGenerator = () => {
   };
 
   const downloadDP = async () => {
-    console.log('Download DP function called');
     const previewElement = document.querySelector('.dp-preview') as HTMLElement;
     
     if (!previewElement) {
@@ -148,24 +147,17 @@ const DPGenerator = () => {
       return;
     }
 
-    console.log('Preview element found:', previewElement);
-
     try {
       const { default: html2canvas } = await import('html2canvas-pro');
       
       // Wait for images to load
       const images = previewElement.querySelectorAll('img');
-      console.log('Found images:', images.length);
-      
       await Promise.all(Array.from(images).map((img, index) => {
         return new Promise((resolve) => {
-          console.log(`Waiting for image ${index + 1}:`, img.src);
           if (img.complete) {
-            console.log(`Image ${index + 1} already loaded`);
             resolve(img);
           } else {
             img.onload = () => {
-              console.log(`Image ${index + 1} loaded successfully`);
               resolve(img);
             };
             img.onerror = (e) => {
@@ -175,8 +167,6 @@ const DPGenerator = () => {
           }
         });
       }));
-      
-      console.log('All images loaded, starting canvas capture...');
       
       const rect = previewElement.getBoundingClientRect();
       
@@ -189,14 +179,12 @@ const DPGenerator = () => {
         height: rect.height,
         scrollX: 0,
         scrollY: 0,
-        logging: true, // Enable logging for debugging
+        logging: true,
         imageTimeout: 30000,
         removeContainer: false,
-        foreignObjectRendering: false, // Disable this as it can cause issues
+        foreignObjectRendering: false,
         ignoreElements: () => false
       });
-
-      console.log('Canvas captured:', canvas.width, 'x', canvas.height);
 
       // Convert canvas to blob and download
       canvas.toBlob((blob) => {
@@ -204,8 +192,6 @@ const DPGenerator = () => {
           console.error('Failed to create blob');
           return;
         }
-        
-        console.log('Blob created successfully, size:', blob.size);
         
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -215,13 +201,9 @@ const DPGenerator = () => {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        
-        console.log('Download completed successfully');
       }, 'image/png', 0.95);
     } catch (error) {
       console.error('Error downloading DP:', error);
-      console.log('Attempting fallback method...');
-      
       try {
         await fallbackDownload();
       } catch (fallbackError) {
@@ -232,16 +214,14 @@ const DPGenerator = () => {
   };
 
   // Fallback download method using canvas drawing
-  const fallbackDownload = async () => {
-    console.log('Using fallback download method');
-    
+  const fallbackDownload = async () => { 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       throw new Error('Canvas context not available');
     }
 
-    canvas.width = 800; // High resolution
+    canvas.width = 800;
     canvas.height = 800;
 
     // Set white background
@@ -256,12 +236,10 @@ const DPGenerator = () => {
       await new Promise((resolve, reject) => {
         templateImg.onload = resolve;
         templateImg.onerror = reject;
-        templateImg.src = '/template.png';
+        templateImg.src = '/template.jpg';
       });
       
       ctx.drawImage(templateImg, 0, 0, 800, 800);
-      console.log('Template image drawn');
-
       // Draw user photo if available
       if (photo) {
         const userImg = new window.Image();
@@ -291,8 +269,6 @@ const DPGenerator = () => {
         ctx.beginPath();
         ctx.arc(400, 240, photoSize / 2 + 4, 0, Math.PI * 2);
         ctx.stroke();
-        
-        console.log('User photo drawn');
       }
 
       // Draw user name if available
@@ -321,8 +297,6 @@ const DPGenerator = () => {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(name, 400, rectY + rectHeight / 2);
-        
-        console.log('User name drawn');
       }
 
       // Convert to blob and download
@@ -340,8 +314,6 @@ const DPGenerator = () => {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        
-        console.log('Fallback download completed successfully');
       }, 'image/png', 0.95);
 
     } catch (error) {
@@ -562,18 +534,6 @@ const DPGenerator = () => {
                   <RadioGroupItem value="white" id="white" />
                   <Label htmlFor="white" className="text-sm font-medium cursor-pointer">
                     White
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="blue" id="blue" />
-                  <Label htmlFor="blue" className="text-sm font-medium cursor-pointer">
-                    Blue
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="green" id="green" />
-                  <Label htmlFor="green" className="text-sm font-medium cursor-pointer">
-                    Green
                   </Label>
                 </div>
               </RadioGroup>
