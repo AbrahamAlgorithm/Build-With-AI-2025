@@ -1,0 +1,246 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* Heading Section Styling */
+.heading {
+    text-align: center;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.heading h1 {
+    font-size: 2.8em;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.heading p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Container for Time and Venue divs */
+.time-venue-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 30px; 
+    margin: 40px auto; 
+    max-width: 800px; 
+}
+
+/* Time and Venue Section Styling */
+.time-venue {
+    background-color: #34A853;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px 15px 30px; 
+    margin: 0; 
+    width: 100%;  
+    text-align: left;
+    border: 5px solid black;
+    box-sizing: border-box; 
+    
+}
+.day-logo-container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 10px; 
+    
+}
+.time-venue .logo {
+    max-width: 180px; 
+    height: 20px; 
+    margin-bottom: -15px;
+    margin-right: -20px;
+}
+.time-venue .Day {
+    color: white;
+    font-size: 1em;
+    margin-bottom: 0;
+    text-align: left;
+    margin-left: -2px;
+}
+
+.time-venue h3 {
+    font-size: 1.7em;
+    color: white;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.time-venue .google-meet {
+    font-weight: bold;
+    font-size: 1.14em;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 13px;
+    text-align: left;
+}
+
+.register-button {
+    display: inline-block;
+    background-color: white;
+    color: #34A853;
+    padding: 15px 65px; 
+    margin-bottom: 12px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #EEEEEE;
+}
+
+.blue {
+    background-color: #4285F4;
+}
+
+.blue-text {
+    color: #4285F4;
+}
+
+
+/* Teams Section Styling */
+#teams {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.circle {
+    background-color: transparent;
+    padding: 30px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px; 
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circle img {
+    width: 220px;
+    max-width: 250px;
+    height: 230px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    margin-bottom: 20px;
+    background-color: #e9ecef;
+}
+
+.circle .name {
+    font-size: 1.5em;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-weight: bold;
+    width: 200px;
+}
+
+.circle .title {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.circle .socials {
+    display: inline-block;
+    background-color:#007bff;
+    color: white;
+    padding: 12px 19px 12px 19px; 
+    border-radius: 60px;
+    text-decoration: none;
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: -48px;
+    transition: background-color 0.3s ease;
+}
+
+.circle .socials:hover {
+    background-color: #0c85d0;
+}
+
+
+/* Responsive Adjustments */
+@media (min-width: 769px) { 
+    .time-venue-container {
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: flex-start; 
+    }
+
+    .time-venue {
+        margin: 0;
+    }  
+    #teams{
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, auto);
+    }
+}
+
+@media (max-width: 768px) {
+    .heading h1 {
+        font-size: 2.2em;
+    }
+
+    .heading p {
+        font-size: 1em;
+    }
+
+    #teams {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .circle {
+        padding: 25px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .heading {
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    .time-venue-container {
+        gap: 20px;
+        margin: 20px auto;
+    }
+
+    .time-venue {
+        padding: 20px;
+    }
+
+    .register-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
