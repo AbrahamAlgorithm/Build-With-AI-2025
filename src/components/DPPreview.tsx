@@ -1,4 +1,4 @@
-// import buildWithAiLogo from "@/assets/build-with-ai-logo.png";
+import React from "react";
 
 interface DPPreviewProps {
   name?: string;
@@ -23,8 +23,8 @@ interface DPPreviewProps {
 const DPPreview = ({ 
   name = "", 
   photo, 
-  photoPosition = { top: '33%', left: '73.5%', transform: 'translate(-50%, -50%)' },
-  namePosition = { bottom: '40%', left: '73.7%', transform: 'translateX(-50%)' }
+  photoPosition = { top: '36%', left: '25.5%', transform: 'translate(-50%, -50%)' },
+  namePosition = { top: '38%', left: '73.7%', transform: 'translateX(-50%)' }
 }: DPPreviewProps) => {
   return (
     <div className="w-full max-w-md mx-auto dp-preview">
@@ -32,7 +32,7 @@ const DPPreview = ({
         {/* Template background image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
-          src="/template.png" 
+          src="/template.jpg" 
           alt="BuildWithAI Template" 
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -50,7 +50,14 @@ const DPPreview = ({
               transform: photoPosition.transform
             }}
           >
-            <div className="w-40 h-40 mx-auto overflow-hidden bg-gray-200 border-4 border-white rounded-full shadow-lg">
+            <div 
+              className="size-28 sm:size-40 mx-auto overflow-hidden rounded-full" 
+              style={{ 
+                border: '1px solid #000000', 
+                backgroundColor: '#e5e7eb',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+              }}
+            >
               {photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img 
@@ -70,7 +77,6 @@ const DPPreview = ({
           </div>
 
           {/* User name - positioned based on props */}
-          {name && (
             <div 
               className="absolute z-10"
               style={{
@@ -81,11 +87,23 @@ const DPPreview = ({
                 transform: namePosition.transform
               }}
             >
-              <div className="px-4 py-1.5 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-gray-200">
-                <div className="text-[11px] font-semibold text-gray-800 text-center whitespace-nowrap">{name}</div>
+              <div 
+                className="px-4 py-1.5 rounded-4xl flex justify-center items-center h-8 sm:min-w-48" 
+                style={{ 
+                  backgroundColor: '#ccf6c6', 
+                  border: '1.1px solid #000000',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                }}
+              >
+                <div 
+                  className="sm:text-[11px] text-[10px] font-semibold text-center whitespace-nowrap"
+                  style={{ color: name ? '#1f2937' : '#9ca3af' }}
+                >
+                  {name ? name : "Name"}
+                </div>
               </div>
             </div>
-          )}
+        
         </div>
       </div>
     </div>
