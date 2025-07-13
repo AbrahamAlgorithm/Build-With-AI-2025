@@ -9,7 +9,7 @@ type TeamCardProps = {
   socialMediaLogo: string;
 };
 
-export default function TeamCard({ name, title, imageUrl, socialMedia, socialMediaLogo}: TeamCardProps) {
+export default function TeamCard({ name, title, imageUrl, socialMedia}: TeamCardProps) {
   return (
     <div className="circle">
       <Image src={imageUrl} alt={name} width={180} height={180} />
