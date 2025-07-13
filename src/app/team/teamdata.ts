@@ -1,7 +1,7 @@
 export const team = [
   {
     id: 1,
-    name: 'Abraham Folorunsho',
+    name: 'Abraham Folorunso',
     title: 'Team Lead',
     imageUrl: '/logo/WEB STUFF-04.png',
     socialMedia:'https//',

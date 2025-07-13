@@ -26,7 +26,7 @@ export default function Header() {
               <Link href="/speakers" className="text-black">Speakers</Link>
             </li>
             <li>
-              <Link href="/team-page" className="text-black">Team</Link>
+              <Link href="/team" className="text-black">Team</Link>
             </li>
           </ul>
         </div>

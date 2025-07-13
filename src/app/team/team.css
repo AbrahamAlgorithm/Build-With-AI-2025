@@ -244,3 +244,11 @@ body {
         font-size: 0.9em;
     }
 }
+
+.team-page {
+    font-family: 'Product Sans', Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    /* Remove global margin/padding */
+}
