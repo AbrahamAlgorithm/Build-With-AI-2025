@@ -240,6 +240,21 @@ const DPGenerator = () => {
       });
       
       ctx.drawImage(templateImg, 0, 0, 800, 800);
+
+      // Get border color for the selected color
+      const getBorderColor = (selectedColor: string) => {
+        switch (selectedColor) {
+          case 'white':
+            return '#ffffff';
+          case 'black':
+            return '#000000';
+          default:
+            return '#ffffff';
+        }
+      };
+
+      const borderColor = getBorderColor(selectedColor);
+
       // Draw user photo if available
       if (photo) {
         const userImg = new window.Image();
@@ -263,8 +278,8 @@ const DPGenerator = () => {
         ctx.drawImage(userImg, photoX, photoY, photoSize, photoSize);
         ctx.restore();
 
-        // Draw white border around photo
-        ctx.strokeStyle = '#ffffff';
+        // Draw border around photo with selected color
+        ctx.strokeStyle = borderColor;
         ctx.lineWidth = 8;
         ctx.beginPath();
         ctx.arc(400, 240, photoSize / 2 + 4, 0, Math.PI * 2);
@@ -273,8 +288,8 @@ const DPGenerator = () => {
 
       // Draw user name if available
       if (name) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        ctx.strokeStyle = '#e5e7eb';
+        ctx.fillStyle = '#ccf6c6'; // Match the preview background color
+        ctx.strokeStyle = borderColor; // Use selected border color
         ctx.lineWidth = 2;
         
         // Measure text
@@ -527,13 +542,19 @@ const DPGenerator = () => {
             {/* Color Selection */}
             <div className="space-y-4">
               <Label className="text-sm font-medium text-gray-900">
-                Select preferred color
+                Select border color
               </Label>
               <RadioGroup value={selectedColor} onValueChange={setSelectedColor}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="white" id="white" />
                   <Label htmlFor="white" className="text-sm font-medium cursor-pointer">
                     White
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="black" id="black" />
+                  <Label htmlFor="black" className="text-sm font-medium cursor-pointer">
+                    Black
                   </Label>
                 </div>
               </RadioGroup>
