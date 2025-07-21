@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -22,7 +22,9 @@ function getTimeLeft(targetDate: Date) {
 }
 
 export default function Hero() {
-  const targetDate = new Date("2025-07-26T00:00:00+01:00"); // WAT is UTC+1
+  const targetDate = useMemo(() => {
+    return new Date("2025-07-26T09:00:00Z");
+  }, []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [mounted, setMounted] = useState(false);
 
