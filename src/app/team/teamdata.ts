@@ -2,81 +2,91 @@ export const team = [
   {
     id: 1,
     name: 'Abraham Folorunso',
-    title: 'Team Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    title: 'Lead Organizer',
+    imageUrl: '/team-images/Abraham.png',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Software Engineer'
   },
   {
     id: 2,
     name: 'Abdulsalam Abdulrasheed',
     title: 'Bootcamp Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    imageUrl: '',
     socialMedia:'https',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Software Engineer'
   },
   {
     id: 3,
     name: 'Fawziyyah Muhammad',
     title: 'Event Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    imageUrl: '',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Frontend Developer'
   },
     {
     id: 4,
     name: 'Eniola Alao',
     title: 'UI/UX Lead',
-    imageUrl: '/team-member-images/IMG_4968 copy.jpg',
+    imageUrl: '/team-images/Eniola.jpg',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Frontend Developer'
   },
-   {
+  {
     id: 5,
-    name: 'Hussaini Ahmed',
-    title: 'Data Analysis Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    name: 'Abundant Joel',
+    title: 'Graphics Lead I',
+    imageUrl: '',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Graphics Designer'
   },
   {
     id: 6,
-    name: 'Abundant Joel',
-    title: 'Graphics Lead I',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    name: 'Muhammed Oparemi',
+    title: 'Frontend Lead',
+    imageUrl: '',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Frontend Developer'
   },
   {
     id: 7,
-    name: 'Muhammed Oparemi',
-    title: 'Frontend Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    name: 'Joel Kolawole Francis',
+    title: 'Graphics Lead',
+    imageUrl: '',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Graphics Designer'
   },
   {
     id: 8,
-    name: 'Joel Kolawole Francis',
-    title: 'Graphics Lead II',
-    imageUrl: '/logo/WEB STUFF-04.png',
-    socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
-  },
-  {
-    id: 9,
     name: 'Abdulsamad Babangida',
     title: 'Publicity Lead',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    imageUrl: '',
     socialMedia:'https//',
-    ocialMediaLogo: '/logo/WEB STUFF-04.png'
+    ocialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Ethical Hacker'
   },
  {
-    id: 10,
+    id: 9,
     name: 'Aishat Adebanjo',
     title: 'Community Manager',
-    imageUrl: '/logo/WEB STUFF-04.png',
+    imageUrl: '',
     socialMedia:'https//',
-    socialMediaLogo: '/logo/WEB STUFF-04.png'
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'ML/AI Engineer'
+  },
+   {
+    id: 10,
+    name: 'Hussaini Ahmed',
+    title: 'Data Analysis Lead',
+    imageUrl: '',
+    socialMedia:'https//',
+    socialMediaLogo: '/logo/WEB STUFF-04.png',
+    subtitle: 'Data Analyst'
   },
 ];

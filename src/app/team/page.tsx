@@ -1,81 +1,84 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import './team.css';
 import TeamCard from '@/components/TeamCard';
 import { team } from './teamdata';
 
 export default function TeamPage() {
   return (
-    <div className="team-page">
-      <div className="heading">
-        <h1>Our Team</h1>
-        <p>
-          Organisers and volunteers Dedicated. Innovative. Passionate.
-          Discover the driving force behind FUTMinna&apos;s largest tech event.
-        </p>
+    <div className="flex flex-col items-center max-w-full mx-auto py-8 px-2">
+      <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 text-center font-productsans">Meet The Team</h1>
+      <p className="text-base md:text-2xl text-gray-700 mb-12 text-center font-productsans max-w-3xl">
+        Organisers and volunteers Dedicated. Innovative. Passionate.
+        Discover the driving force behind FUTMinna&apos;s largest tech event.
+      </p>
 
-        {/* Time and Venue */}
-        <div className="time-venue-container">
-          <div className="time-venue">
-            <div className="day-logo-container">
-              <p className="Day">Day 1</p>
+      {/* Time and Venue */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-12 w-full max-w-6xl mb-16">
+        {/* Day 1 Card */}
+        <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-3xl shadow-2xl border-2 border-green-800 p-8 flex-1 font-productsans flex flex-col justify-between min-h-[220px]">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-white text-xl md:text-2xl font-semibold">Day 1</span>
               <Image
-                className="logo"
                 src="/logo/WEB STUFF-04.png"
                 alt="logo"
-                width={180}
-                height={40}
+                width={100}
+                height={28}
+                className="h-6 w-auto md:h-8 md:w-auto"
               />
             </div>
-            <h3>Monday, July 24</h3>
-            <p className="google-meet">Google Meet 📍</p>
-            <Link
-              href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="register-button"
-            >
-              Register
-            </Link>
+            <h3 className="text-2xl md:text-3xl text-white font-bold mb-2">Thursday, July 24</h3>
+            <p className="font-semibold text-white text-base md:text-xl mb-4">Google Meet <span aria-label="location" role="img">📍</span></p>
           </div>
-
-          <div className="time-venue blue">
-            <div className="day-logo-container">
-              <p className="Day">Day 2</p>
-              <Image
-                className="logo"
-                src="/logo/WEB STUFF-04.png"
-                alt="logo"
-                width={180}
-                height={40}
-              />
-            </div>
-            <h3>Wednesday, July 26</h3>
-            <p className="google-meet">NITDA IT HUB 📍</p>
-            <Link
-              href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="register-button blue-text"
-            >
-              Register
-            </Link>
-          </div>
+          <Link
+            href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-white text-green-700 px-6 py-2 rounded-full font-bold hover:bg-green-100 transition-colors duration-200 text-center shadow text-base md:text-xl"
+          >
+            Set Reminder
+          </Link>
         </div>
+        {/* Day 2 Card */}
+        <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl shadow-2xl border-2 border-blue-800 p-8 flex-1 font-productsans flex flex-col justify-between min-h-[220px] mt-4 md:mt-0">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-white text-xl md:text-2xl font-semibold">Day 2</span>
+              <Image
+                src="/logo/WEB STUFF-04.png"
+                alt="logo"
+                width={100}
+                height={28}
+                className="h-6 w-auto md:h-8 md:w-auto"
+              />
+            </div>
+            <h3 className="text-2xl md:text-3xl text-white font-bold mb-2">Saturday, July 26</h3>
+            <p className="font-semibold text-white text-base md:text-xl mb-4">NITDA IT HUB <span aria-label="location" role="img">📍</span></p>
+          </div>
+          <Link
+            href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-white text-blue-700 px-6 py-2 rounded-full font-bold hover:bg-blue-100 transition-colors duration-200 text-center shadow text-base md:text-xl"
+          >
+            Register
+          </Link>
+        </div>
+      </div>
 
-        {/* Teams Section */}
-        <div id="teams">
-          {team.map((member, index) => (
+      {/* Teams Section */}
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-1 w-full max-w-7xl mx-auto">
+        {team.map((member, index) => (
           <TeamCard
             key={index}
             name={member.name}
             title={member.title}
             imageUrl={member.imageUrl}
             socialMedia={member.socialMedia}
-            socialMediaLogo={member.socialMediaLogo ?? ""}
-          /> ))}
-        </div>
-      </div>
+            subtitle={member.subtitle}
+          />
+        ))}
+      </ul>
     </div>
   );
 }
