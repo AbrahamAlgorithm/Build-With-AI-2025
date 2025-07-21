@@ -12,7 +12,7 @@ export const team = [
     id: 2,
     name: 'Abdulsalam Abdulrasheed',
     title: 'Bootcamp Lead',
-    imageUrl: '',
+    imageUrl: '/team-images/Abdulsalam.png',
     socialMedia:'https',
     socialMediaLogo: '/logo/WEB STUFF-04.png',
     subtitle: 'Software Engineer'
