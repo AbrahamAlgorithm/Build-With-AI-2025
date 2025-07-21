@@ -1,7 +1,11 @@
+import Hero from "@/components/Hero";
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <main className="flex-1">{/* Your main content here */}</main>
+      <main className="flex-1">
+        <Hero />
+      </main>
     </div>
   );
 }
