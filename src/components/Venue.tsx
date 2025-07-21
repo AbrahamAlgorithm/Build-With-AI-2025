@@ -62,7 +62,7 @@ export default function Venue() {
         </div>
         <div className="flex items-center justify-center gap-4 mt-10">
           <Link
-            href="https://bit.ly/Lets-Build-With-AI"
+            href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
             target="_blank"
             rel="noopener noreferrer"
             className="chakra-button !bg-[#33A852] !text-white hover:opacity-80 flex items-center gap-2 font-semibold rounded-full px-8 py-4 text-lg transition"
