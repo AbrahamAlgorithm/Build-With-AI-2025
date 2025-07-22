@@ -79,7 +79,7 @@ export default function Hero() {
             alt="Build with AI FUTMINNA 2025 Logo"
             width={1200}
             height={500}
-            className="mx-auto w-full max-w-4xl h-auto"
+            className="mx-auto w-full max-w-5xl h-auto"
             priority
           />
         </div>
@@ -91,13 +91,13 @@ export default function Hero() {
         </h2>
 
         <div className="mb-12">
-        <div className="grid grid-cols-2 gap-6 md:flex md:justify-center md:gap-12">
+        <div className="grid grid-cols-2 md:flex md:justify-center md:gap-12">
             {countdownData.map((item) => (
             <div key={item.label} className="text-center font-productsans">
-                <div className="text-5xl md:text-7xl font-product-sans font-bold text-black mb-2 font-productsans">
+                <div className="text-7xl md:text-8xl font-product-sans font-bold text-black mb-2 font-productsans">
                 {item.value}
                 </div>
-                <div className="text-sm md:text-base text-gray-600 tracking-wider font-medium font-productsans">
+                <div className="text-xl md:text-base text-gray-600 tracking-wider font-medium font-productsans">
                 {item.label}
                 </div>
             </div>
