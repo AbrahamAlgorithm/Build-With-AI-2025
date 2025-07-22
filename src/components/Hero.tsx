@@ -2,6 +2,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Slider from "./Slider";
 
 function getTimeLeft(targetDate: Date) {
   const now = new Date();

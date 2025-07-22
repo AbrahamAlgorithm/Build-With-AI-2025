@@ -51,7 +51,7 @@ export default function Footer() {
               className="bg-white rounded-full hover:bg-[#F9AB00] transition p-4"
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.linkedin.com/company/gdg-on-campus-futminna"
+              href="https://www.linkedin.com/company/gdgoc-futminna/"
             >
               <Image
                 alt="LinkedIn"
