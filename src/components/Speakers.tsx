@@ -6,9 +6,10 @@ interface Speaker {
   id: number;
   name: string;
   title: string;
-  company: string;
-  sessionType: "keynote" | "breakout" | "panelist" | "workshop";
+  company?: string;
+  sessionType: "main" | "virtual";
   image: string;
+  topic: string;
 }
 
 const SpeakerShowcase: React.FC = () => {
@@ -18,93 +19,34 @@ const SpeakerShowcase: React.FC = () => {
   const speakers: Speaker[] = [
     {
       id: 1,
-      name: "Temi Kolawole",
-      title: "Managing Director",
-      company: "Ilorin Innovation Hub",
-      sessionType: "keynote",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      name: "Victor (Olamide) Akande",
+      title: "Cloud Engineer",
+      sessionType: "main",
+      image: "/speakers/victor-akande.jpg",
+      topic: "RAG with Vertex",
     },
     {
       id: 2,
-      name: "Adigbole Osisioni",
-      title: "Snr Product Designer",
-      company: "MTN",
-      sessionType: "breakout",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      name: "Nurudeen AbdulMalik Ajao",
+      title: "Software Engineer",
+      sessionType: "main",
+      image: "/speakers/nurudeen-abdulmalik.jpg",
+      topic: "Firebase Studio",
     },
     {
       id: 3,
-      name: "Qudirah Alimi",
-      title: "Machine Learning Engineer",
-      company: "Arebak LLC",
-      sessionType: "breakout",
-      image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 4,
-      name: "David Chen",
-      title: "Senior Software Engineer",
-      company: "Google",
-      sessionType: "panelist",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 5,
-      name: "Sarah Johnson",
-      title: "UX Research Lead",
-      company: "Microsoft",
-      sessionType: "workshop",
-      image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 6,
-      name: "Michael Rodriguez",
-      title: "Data Scientist",
-      company: "Netflix",
-      sessionType: "keynote",
-      image:
-        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 7,
-      name: "Lisa Wang",
-      title: "AI Research Scientist",
-      company: "OpenAI",
-      sessionType: "workshop",
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 8,
-      name: "James Miller",
-      title: "DevOps Engineer",
-      company: "Amazon",
-      sessionType: "panelist",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-      id: 9,
-      name: "Emma Thompson",
-      title: "Frontend Developer",
-      company: "Spotify",
-      sessionType: "breakout",
-      image:
-        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=400&fit=crop&crop=face",
+      name: "Frank Ebuduike",
+      title: "",
+      sessionType: "virtual",
+      image: "/default-avatar.png",
+      topic: "AI Studio",
     },
   ];
 
   const filterButtons = [
     { id: "all", label: "All" },
-    { id: "keynote", label: "Keynote" },
-    { id: "breakout", label: "Breakout" },
-    { id: "panelist", label: "Panelist" },
-    { id: "workshop", label: "Workshop" },
+    { id: "virtual", label: "Virtual" },
+    { id: "main", label: "Main Event" },
   ];
 
   const filteredSpeakers =
@@ -161,7 +103,7 @@ const SpeakerShowcase: React.FC = () => {
         {/* Speaker Grid with Animation */}
         <div className='relative'>
           <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ${
+            className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-500 ${
               isAnimating
                 ? "opacity-0 transform scale-95"
                 : "opacity-100 transform scale-100"
@@ -206,11 +148,18 @@ const SpeakerShowcase: React.FC = () => {
                       </h3>
                       <h6 className='text-sm text-gray-300 mb-1 font-medium'>
                         {speaker.title}
-                        {", "}
-                        <span className='text-gray-300 text-sm font-light uppercase'>
-                          {speaker.company}
-                        </span>
+                        {speaker.company && (
+                          <>
+                            {", "}
+                            <span className='text-gray-300 text-sm font-light uppercase'>
+                              {speaker.company}
+                            </span>
+                          </>
+                        )}
                       </h6>
+                      <p className='text-sm text-gray-200 italic'>
+                       Topic: &quot;{speaker.topic}&quot;
+                      </p>
                     </div>
 
                     {/* Subtle accent line */}
@@ -264,21 +213,15 @@ const SpeakerShowcase: React.FC = () => {
           </div>
           <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
             <div className='text-3xl font-bold text-pink-500 mb-2'>
-              {speakers.filter((s) => s.sessionType === "keynote").length}
+              {speakers.filter((s) => s.sessionType === "main").length}
             </div>
-            <div className='text-gray-600'>Keynotes</div>
+            <div className='text-gray-600'>Main Event</div>
           </div>
           <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
             <div className='text-3xl font-bold text-cyan-500 mb-2'>
-              {speakers.filter((s) => s.sessionType === "breakout").length}
+              {speakers.filter((s) => s.sessionType === "virtual").length}
             </div>
-            <div className='text-gray-600'>Breakouts</div>
-          </div>
-          <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
-            <div className='text-3xl font-bold text-green-500 mb-2'>
-              {speakers.filter((s) => s.sessionType === "workshop").length}
-            </div>
-            <div className='text-gray-600'>Workshops</div>
+            <div className='text-gray-600'>Virtual</div>
           </div>
         </div>
       </div>
