@@ -41,7 +41,7 @@ export default function Schedule() {
               </div>
               <a
                 className="mt-6 flex items-center justify-center bg-[#f0f0f0] text-green-700 font-semibold rounded-full px-6 py-4 text-base hover:opacity-80 transition w-fit"
-                href="https://bit.ly/Lets-Build-With-AI"
+                href="https://calendar.app.google/JuYidGYTXnrqZhZGA"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -86,7 +86,7 @@ export default function Schedule() {
               </div>
               <a
                 className="mt-6 flex items-center justify-center bg-[#f0f0f0] text-blue-700 font-semibold rounded-full px-6 py-4 text-base hover:opacity-80 transition w-fit"
-                href="https://bit.ly/Lets-Build-With-AI"
+                href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
                 target="_blank"
                 rel="noopener noreferrer"
               >

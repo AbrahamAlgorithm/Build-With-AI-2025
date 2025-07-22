@@ -30,7 +30,7 @@ export default function SpeakersPage() {
             <p className="font-semibold text-white text-base md:text-xl mb-4">Google Meet <span aria-label="location" role="img">📍</span></p>
           </div>
           <Link
-            href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
+            href="https://calendar.app.google/JuYidGYTXnrqZhZGA"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-white text-green-700 px-6 py-2 rounded-full font-bold hover:bg-green-100 transition-colors duration-200 text-center shadow text-base md:text-xl"

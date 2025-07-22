@@ -65,10 +65,10 @@ export default function Venue() {
             href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
             target="_blank"
             rel="noopener noreferrer"
-            className="chakra-button !bg-[#33A852] !text-white hover:opacity-80 flex items-center gap-2 font-semibold rounded-full px-8 py-4 text-lg transition"
+            className="chakra-button !bg-[#33A852] !text-white hover:opacity-80 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition"
             style={{ textAlign: "center" }}
           >
-            Register Now
+            Register
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -86,7 +86,7 @@ export default function Venue() {
           </Link>
           <Link
             href="/get-dp"
-            className="chakra-button !bg-[#FF7DAF] !text-white hover:opacity-80 flex items-center gap-2 font-semibold rounded-full px-8 py-4 text-lg transition"
+            className="chakra-button !bg-[#FF7DAF] !text-white hover:opacity-80 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition"
             style={{ textAlign: "center" }}
           >
             Generate DP!
