@@ -125,7 +125,7 @@ const SpeakerShowcase: React.FC = () => {
                 }`}
                 style={{
                   transitionDelay: isAnimating ? "0ms" : `${index * 100}ms`,
-                  minHeight: "800px",
+                  minHeight: "350px", // reduced for mobile
                 }}
               >
                 {/* Session Type Badge */}
@@ -139,7 +139,7 @@ const SpeakerShowcase: React.FC = () => {
                   {speaker.sessionType}
                 </div>
                 {/* Speaker Image fills the card */}
-                <div className="relative w-full h-full flex-1">
+                <div className="relative w-full h-full flex-1 min-h-[200px] md:min-h-[600px]">
                   <Image
                     src={speaker.image}
                     alt={speaker.name}
@@ -148,22 +148,22 @@ const SpeakerShowcase: React.FC = () => {
                     style={{ objectPosition: "top" }}
                   />
                   {/* Overlay with details on hover */}
-                  <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-10 pb-36">
-                    <h2 className="text-[2.2rem] font-bold text-white mb-2">{speaker.name}</h2>
-                    <p className="font-light text-[18px] text-gray-200 mb-1">{speaker.title}{speaker.company && `, ${speaker.company}`}</p>
-                    <p className="text-base italic text-gray-300">{speaker.topic}</p>
+                  <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 md:p-10 pb-20 md:pb-36">
+                    <h2 className="text-[1.1rem] md:text-[2.2rem] font-bold text-white mb-2">{speaker.name}</h2>
+                    <p className="font-light text-[13px] md:text-[18px] text-gray-200 mb-1">{speaker.title}{speaker.company && `, ${speaker.company}`}</p>
+                    <p className="text-xs md:text-base italic text-gray-300">{speaker.topic}</p>
                   </div>
                 </div>
                 {/* Speaker Info (always visible, overlay bottom) */}
-                <div className="absolute left-0 right-0 bottom-0 p-8 bg-white rounded-b-xl h-auto overflow-hidden flex flex-col justify-between z-20">
+                <div className="absolute left-0 right-0 bottom-0 p-4 md:p-8 bg-white rounded-b-xl h-auto overflow-hidden flex flex-col justify-between z-20">
                   <div className="flex items-center justify-between">
-                    <p className="text-button opacity-50 uppercase text-lg font-bold">SPEAKER</p>
+                    <p className="text-button opacity-50 uppercase text-xs md:text-lg font-bold">SPEAKER</p>
                     <Image
                       src="/logo/WEB STUFF-04.png"
                       alt="lanyard"
-                      width={180}
+                      width={90}
                       height={32}
-                      className="w-[70%] h-auto"
+                      className="w-[60%] md:w-[70%] h-auto"
                     />
                   </div>
                 </div>
