@@ -31,12 +31,12 @@ export default function Speakers() {
     },
     {
       id: 4,
-      name: "Speaker Four",
-      title: "",
-      company: "",
-      image: "/speakers/4.png",
+      name: "El-Praise Ayo",
+      title: "Software Developer",
+      sessionType: "In-Person",
+      image: "/speakers/4.JPG",
       bio: "",
-      sessionType: "In-Person"
+      company: "" 
     }
   ];
 
@@ -65,10 +65,10 @@ const getSessionTypeStyles = (sessionType: SessionType): string => {
 };
 
   return (
-    <section className="bg-white py-10 lg:py-20">
-      <div className="px-4 lg:px-20 container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-4 justify-between mb-10">
-          <h1 className="font-semibold text-2xl lg:text-4xl">Speakers</h1>
+    <section className="py-10 bg-white lg:py-20">
+      <div className="container px-4 mx-auto lg:px-20">
+        <div className="flex flex-col items-center justify-between gap-4 mb-10 lg:flex-row">
+          <h1 className="text-2xl font-semibold lg:text-4xl">Speakers</h1>
           <Image
             src="/logo3.png"
             alt="devfest-frame"
@@ -79,7 +79,7 @@ const getSessionTypeStyles = (sessionType: SessionType): string => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {speakers.map((speaker) => (
             <div 
               key={speaker.id}
@@ -96,7 +96,7 @@ const getSessionTypeStyles = (sessionType: SessionType): string => {
                 />
                 
                 {/* Session Type Badge */}
-                <div className="absolute top-5 left-4 z-10">
+                <div className="absolute z-10 top-5 left-4">
                   <span className={`px-5 py-3 rounded-full text-sm font-medium ${getSessionTypeStyles(speaker.sessionType)}`}>
                     {speaker.sessionType}
                   </span>
@@ -107,10 +107,10 @@ const getSessionTypeStyles = (sessionType: SessionType): string => {
                 
                 {/* Speaker Info Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-1 drop-shadow-lg">
+                  <h3 className="mb-1 text-2xl font-bold drop-shadow-lg">
                     {speaker.name}
                   </h3>
-                  <p className="font-semibold text-sm drop-shadow-md mb-1">
+                  <p className="mb-1 text-sm font-semibold drop-shadow-md">
                     {speaker.title}
                   </p>
                   <p className="text-xs opacity-90 drop-shadow-md">
@@ -123,18 +123,18 @@ const getSessionTypeStyles = (sessionType: SessionType): string => {
         </div>
 
         {/* Call to Action Buttons */}
-        <div className="flex items-center justify-center lg:justify-end gap-4 mt-12">
+        <div className="flex items-center justify-center gap-4 mt-12 lg:justify-end">
           <a
             href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-black text-gray-800 hover:opacity-80 hover:bg-gray-100 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition bg-white"
+            className="flex items-center gap-2 px-8 py-4 text-lg text-gray-800 transition bg-white border border-black rounded-full hover:opacity-80 hover:bg-gray-100"
           >
             Register
           </a>
           <a
             href="/speakers"
-            className="bg-black text-white hover:opacity-80 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition"
+            className="flex items-center gap-2 px-8 py-4 text-lg text-white transition bg-black rounded-full hover:opacity-80"
           >
             More
             <svg

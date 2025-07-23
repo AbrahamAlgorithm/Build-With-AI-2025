@@ -7,7 +7,7 @@ interface Speaker {
   name: string;
   title: string;
   company?: string;
-  sessionType: "main" | "virtual";
+  sessionType: "In-Person" | "Virtual";
   image: string;
   topic: string;
 }
@@ -18,35 +18,45 @@ const SpeakerShowcase: React.FC = () => {
 
   const speakers: Speaker[] = [
     {
+      id: 3,
+      name: "Frank C. Ebeledike ",
+      title: "Mobile App Developer",
+      company: "TMR Golden Living",
+      image: "/speakers/1.png",
+      sessionType: "Virtual",
+      topic: "From Idea to App: Rapid Prototyping with Gemini in AI Studio",
+    },
+    {
       id: 1,
       name: "Victor (Olamide) Akande",
       title: "Cloud Engineer",
-      sessionType: "main",
+      sessionType: "In-Person",
       image: "/speakers/victor-akande.jpg",
-      topic: "RAG with Vertex",
+      topic: "Multimodal RAG using Vertex AI Gemini API",
     },
     {
       id: 2,
       name: "Nurudeen AbdulMalik Ajao",
       title: "Software Engineer",
-      sessionType: "main",
-      image: "/speakers/nurudeen-abdulmalik.jpg",
-      topic: "Firebase Studio",
+      sessionType: "In-Person",
+      image: "/speakers/3.png",
+      topic: "Transforming AI ideas into Full-stack Apps with Firebase Studio",
     },
     {
-      id: 3,
-      name: "Frank Ebuduike",
-      title: "",
-      sessionType: "virtual",
-      image: "/default-avatar.png",
-      topic: "AI Studio",
-    },
+      id: 4,
+      name: "El-Praise Ayo",
+      title: "Software Developer",
+      topic: "Introduction to Generative AI: Video Generation using Vertex AI",
+      sessionType: "In-Person",
+      image: "/speakers/4.JPG",
+      
+    }
   ];
 
   const filterButtons = [
     { id: "all", label: "All" },
-    { id: "virtual", label: "Virtual" },
-    { id: "main", label: "Main Event" },
+    { id: "Virtual", label: "Virtual" },
+    { id: "In-Person", label: "In Person" },
   ];
 
   const filteredSpeakers =
@@ -72,17 +82,15 @@ const SpeakerShowcase: React.FC = () => {
 
   const getSessionTypeColor = (type: string) => {
     const colors = {
-      keynote: "bg-pink-500",
-      breakout: "bg-cyan-500",
-      panelist: "bg-blue-500",
-      workshop: "bg-green-500",
+      Virtual: "bg-orange-300 text-white border border-black",
+      "In-Person": "bg-blue-400 text-blue-100 border border-black",
     };
-    return colors[type as keyof typeof colors] || "bg-gray-500";
+    return colors[type as keyof typeof colors] || "bg-gray-400 text-white border border-black";
   };
 
   return (
-    <div className='min-h-screen py-16 px-4'>
-      <div className='max-w-7xl mx-auto'>
+    <div className='w-full min-h-screen px-4 py-16'>
+      <div className='container w-full mx-auto'>
         {/* Filter Buttons */}
         <div className='flex flex-wrap justify-center gap-4 mb-12'>
           {filterButtons.map((button) => (
@@ -101,7 +109,7 @@ const SpeakerShowcase: React.FC = () => {
         </div>
 
         {/* Speaker Grid with Animation */}
-        <div className='relative'>
+        <div className='relative w-full'>
           <div
             className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-500 ${
               isAnimating
@@ -122,17 +130,17 @@ const SpeakerShowcase: React.FC = () => {
                 }}
               >
                 {/* Speaker Image */}
-                <div className='relative h-64 overflow-hidden'>
+                <div className='relative h-96 lg:h-[500px] overflow-hidden'>
                   <Image
                     src={speaker.image}
                     alt={speaker.name}
                     fill
-                    className='object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110'
+                    className='object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110'
                   />
 
                   {/* Session Type Badge */}
                   <div
-                    className={`absolute top-3 left-3 px-3 py-1 rounded-full text-white font-semibold text-xs ${getSessionTypeColor(
+                    className={`absolute top-3 left-3 px-5 py-3 rounded-full text-white font-semibold text-xs ${getSessionTypeColor(
                       speaker.sessionType
                     )} transition-all duration-300 group-hover:scale-105`}
                   >
@@ -141,38 +149,38 @@ const SpeakerShowcase: React.FC = () => {
                   </div>
 
                   {/* Improved Overlay */}
-                  <div className='absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-800/70 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out flex flex-col justify-end p-6'>
-                    <div className='transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-100'>
-                      <h3 className='text-xl font-bold text-white mb-2 tracking-wide'>
+                  <div className='absolute inset-0 flex flex-col justify-end p-6 transition-all duration-700 ease-out opacity-0 bg-gradient-to-t from-slate-900 via-slate-800/70 to-transparent group-hover:opacity-100'>
+                    <div className='transition-all duration-500 delay-100 transform translate-y-8 group-hover:translate-y-0'>
+                      <h3 className='mb-2 text-xl font-bold tracking-wide text-white'>
                         {speaker.name}
                       </h3>
-                      <h6 className='text-sm text-gray-300 mb-1 font-medium'>
+                      <h6 className='mb-1 text-sm font-medium text-gray-300'>
                         {speaker.title}
                         {speaker.company && (
                           <>
-                            {", "}
-                            <span className='text-gray-300 text-sm font-light uppercase'>
+                            {"@"}
+                            <span className='text-sm font-light text-gray-300 uppercase'>
                               {speaker.company}
                             </span>
                           </>
                         )}
                       </h6>
-                      <p className='text-sm text-gray-200 italic'>
+                      <p className='text-sm italic text-gray-200'>
                        Topic: &quot;{speaker.topic}&quot;
                       </p>
                     </div>
 
                     {/* Subtle accent line */}
-                    <div className='absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200'></div>
+                    <div className='absolute bottom-0 left-0 right-0 h-1 transition-transform duration-500 delay-200 transform scale-x-0 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:scale-x-100'></div>
                   </div>
                 </div>
 
                 {/* Speaker Info */}
                 <div className='p-3 transition-all duration-500'>
                   {/* Badges - Always visible */}
-                  <div className='flex items-center gap-2 mb-2 group-hover:mb-4 transition-all duration-300'>
+                  <div className='flex items-center gap-2 mb-2 transition-all duration-300 group-hover:mb-4'>
                     <span
-                      className='text-lg uppercase text-blue-600'
+                      className='text-lg text-blue-600 uppercase'
                       style={{ margin: 0 }}
                     >
                       Speaker
@@ -192,9 +200,9 @@ const SpeakerShowcase: React.FC = () => {
 
         {/* No Results Message */}
         {filteredSpeakers.length === 0 && (
-          <div className='text-center py-16'>
-            <div className='text-gray-400 text-6xl mb-4'>🔍</div>
-            <h3 className='text-xl font-semibold text-gray-600 mb-2'>
+          <div className='py-16 text-center'>
+            <div className='mb-4 text-6xl text-gray-400'>🔍</div>
+            <h3 className='mb-2 text-xl font-semibold text-gray-600'>
               No speakers found
             </h3>
             <p className='text-gray-500'>
@@ -202,28 +210,6 @@ const SpeakerShowcase: React.FC = () => {
             </p>
           </div>
         )}
-
-        {/* Statistics */}
-        <div className='mt-16 grid grid-cols-2 md:grid-cols-4 gap-6'>
-          <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
-            <div className='text-3xl font-bold text-gray-900 mb-2'>
-              {speakers.length}
-            </div>
-            <div className='text-gray-600'>Total Speakers</div>
-          </div>
-          <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
-            <div className='text-3xl font-bold text-pink-500 mb-2'>
-              {speakers.filter((s) => s.sessionType === "main").length}
-            </div>
-            <div className='text-gray-600'>Main Event</div>
-          </div>
-          <div className='text-center p-6 bg-white rounded-lg shadow-lg'>
-            <div className='text-3xl font-bold text-cyan-500 mb-2'>
-              {speakers.filter((s) => s.sessionType === "virtual").length}
-            </div>
-            <div className='text-gray-600'>Virtual</div>
-          </div>
-        </div>
       </div>
     </div>
   );
