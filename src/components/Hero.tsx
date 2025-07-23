@@ -72,7 +72,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-[80vh] py-20 px-4 md:px-12 font-productsans text-center bg-white">
+    <section className="flex flex-col items-center justify-center min-h-[80vh] py-12 px-4 md:px-12 font-productsans text-center bg-white">
       <div className="w-full max-w-6xl">
         <div className="mb-2 mt-0 md:mt-32">
           <Image

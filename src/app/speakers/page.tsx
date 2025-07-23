@@ -66,6 +66,39 @@ export default function SpeakersPage() {
       </div>
 
       <SpeakerShowcase />
+
+      <div className="flex items-center justify-center gap-4 mt-10">
+          <Link
+            href="https://gdg.community.dev/events/details/google-gdg-on-campus-federal-university-of-technology-minna-nigeria-presents-build-with-ai-2025/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="chakra-button !bg-blue-500 !text-white hover:opacity-80 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition"
+            style={{ textAlign: "center" }}
+          >
+            Register
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 16 16"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"
+              ></path>
+            </svg>
+          </Link>
+          <Link
+            href="/get-dp"
+            className="chakra-button !bg-green-500 !text-white hover:opacity-80 flex items-center gap-2 rounded-full px-8 py-4 text-lg transition"
+            style={{ textAlign: "center" }}
+          >
+            Generate DP!
+          </Link>
+        </div>
     </div>
   );
 }
