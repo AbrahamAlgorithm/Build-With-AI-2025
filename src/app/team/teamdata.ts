@@ -30,7 +30,7 @@ export const team = [
     id: 4,
     name: 'Eniola Alao',
     title: 'UI/UX Lead',
-    imageUrl: '/team-images/Eniola.jpg',
+    imageUrl: '/team-images/Eniola.png',
     socialMedia:'', //https://x.com/alao_eniola_eun
     socialMediaLogo: '/logo/WEB STUFF-04.png',
     subtitle: 'Frontend Developer'
