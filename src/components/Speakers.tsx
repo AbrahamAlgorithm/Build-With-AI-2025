@@ -48,8 +48,7 @@ const SpeakerShowcase: React.FC = () => {
       title: "Software Developer",
       topic: "Introduction to Generative AI: Video Generation using Vertex AI",
       sessionType: "In-Person",
-      image: "/speakers/4.png",
-      
+      image: "/speakers/4.jpg",
     }
   ];
 
