@@ -80,13 +80,13 @@ const SpeakerShowcase: React.FC = () => {
     }, 150);
   };
 
-  const getSessionTypeColor = (type: string) => {
-    const colors = {
-      Virtual: "bg-orange-300 text-white border border-black",
-      "In-Person": "bg-blue-400 text-blue-100 border border-black",
-    };
-    return colors[type as keyof typeof colors] || "bg-gray-400 text-white border border-black";
-  };
+  // const getSessionTypeColor = (type: string) => {
+  //   const colors = {
+  //     Virtual: "bg-orange-300 text-white border border-black",
+  //     "In-Person": "bg-blue-400 text-blue-100 border border-black",
+  //   };
+  //   return colors[type as keyof typeof colors] || "bg-gray-400 text-white border border-black";
+  // };
 
   return (
     <div className='w-full min-h-screen px-6 md:px-20 lg:px-52'>
