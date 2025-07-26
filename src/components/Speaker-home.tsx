@@ -34,7 +34,7 @@ export default function Speakers() {
       name: "El-Praise Ayo",
       title: "Software Developer",
       sessionType: "In-Person",
-      image: "/speakers/4.JPG",
+      image: "/speakers/4.jpg",
       bio: "",
       company: "" 
     }
